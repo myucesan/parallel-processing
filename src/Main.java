@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Main {
 
     /**
@@ -7,8 +9,29 @@ public class Main {
      * @return the minimised maximum lateness.
      */
     public static int solve(int n, int m, int[] deadlines) {
-        // TODO
+        // duration is 1 for all jobs
+        int latestFinishingTime = 1;
+        int processorsUsed = 1;
+        int minimumMaxLateness = Integer.MIN_VALUE;
+        Arrays.sort(deadlines, 1, n + 1);
+        // we have m processors, and we want to use the second processor in a way that minimises the maximum lateness
 
-        return -999;
+        // realise that when you use an extra processor you do
+        // not progress in time, as you do it at the same time as another job
+        for (int i = 1; i <= n; i++) {
+            minimumMaxLateness = Math.max(minimumMaxLateness, latestFinishingTime - deadlines[i]);
+
+            if (processorsUsed < m) {
+                processorsUsed++;
+
+            } else {
+                latestFinishingTime++;
+                processorsUsed = 1;
+            }
+        }
+
+
+        return minimumMaxLateness;
     }
 }
+
